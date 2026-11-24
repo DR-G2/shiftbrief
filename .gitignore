@@ -18,3 +18,5 @@ demo/*.mp3
 demo/*.srt
 demo/.auth/
 demo/.venv/
+demo/parts/
+demo/raw/

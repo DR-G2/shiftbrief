@@ -1,0 +1,15 @@
+I'm a doctor. Shift handover is rushed, and the ward network is often bad. I want a brief that can be structured on the device when the note is short, and only go to the cloud when the handover is long.
+
+This recording uses ShiftBrief's labelled local-preview mode. A personal Firebase project is not configured on this machine yet, so you will not see a live Gemini Nano or cloud model call. The live hybrid path will be re-recorded once Firebase is set up. The preview is clearly labelled, and it is not a model summary.
+
+Before you use the app, ShiftBrief tells you it is not a medical device. Enter only fictitious, or already de-identified, practice notes. The clinician remains responsible for every handover.
+
+Here is a short, invented night-shift note. It stays under the on-device character threshold, so the intended route is on-device. I'll structure this brief now.
+
+The preview returns a structured brief: an identifier line, current issues, pending tasks, and watch-outs. In a live build, this short note would prefer on-device inference, and the app would show the official inference source.
+
+Now a longer, multi-bay invented handover. This is above the threshold, so the app prefers a cloud pass.
+
+The same structure comes back, with more items pulled out. In a live build, this would request the cloud model through Firebase AI Logic.
+
+One SDK, two routes. Short notes prefer on-device for privacy and poor networks. Long notes prefer the cloud. Notes stay in this browser. ShiftBrief is a writing aid only, open source under Apache 2.0, and it never replaces a proper handover.
