@@ -26,7 +26,7 @@ Ward networks fail at the exact moment a shift changes. A short, routine note sh
 - Intentional routing: `PREFER_ON_DEVICE` for short notes, `PREFER_IN_CLOUD` for long notes, `ONLY_IN_CLOUD` when you ask for a deeper pass
 - Live `inferenceSource` from the SDK, shown in the UI
 - Structured JSON brief (`responseSchema`)
-- Firebase App Check (required; debug tokens on localhost only)
+- Firebase App Check (optional; initialised only when `VITE_RECAPTCHA_SITE_KEY` is set)
 - Firebase Remote Config for the on-device character threshold
 - `initializeDeviceModel()` after a user click, with download progress
 - Chrome 139+ desktop capability hint and Prompt API flag reminder
@@ -36,7 +36,7 @@ Ward networks fail at the exact moment a shift changes. A short, routine note sh
 ## Repository layout
 
 - `src/ai.js` — imports and **calls** Firebase AI Logic (`getGenerativeModel`, `initializeDeviceModel`, `generateContent`)
-- `src/firebase.js` — Firebase App + App Check
+- `src/firebase.js` — Firebase App, optional App Check, AI Logic backend
 - `src/remote-config.js` — Remote Config threshold
 - `src/hybrid.js` — routing rules
 - `src/main.js` — product UI
@@ -63,6 +63,12 @@ Open http://127.0.0.1:5173 in Chrome desktop. The first time you click **Structu
 
 Without `.env.local`, the UI still opens and can show a **labelled local preview**. That preview is not a contest-valid AI path. Judges must test a build with Firebase configured.
 
+## Hybrid fallback
+
+- If Firebase web config is missing, the UI uses a clearly labelled **local preview**. That path is a rule-based sketch, not a live model, and is not the contest AI path.
+- When Firebase AI Logic is configured, short notes use `PREFER_ON_DEVICE` and long notes (or “prefer cloud”) use `PREFER_IN_CLOUD`. If the on-device model is unavailable, `PREFER_ON_DEVICE` falls back to the cloud through the official SDK, and the UI still shows `inferenceSource`.
+- **App Check is optional** in this project. The app initialises App Check only when `VITE_RECAPTCHA_SITE_KEY` is set. If reCAPTCHA v3 classic is unavailable in the Firebase console, leave the key unset and turn enforcement off so the judged demo can call AI Logic.
+
 ```bash
 npm run build
 npm run preview
@@ -75,7 +81,7 @@ npm run preview
 - The hosted demo URL (recommended) or this repo plus `npm install && npm run dev` after creating their own Firebase project
 - The project is free. No login is required. Do not enter real personal data.
 
-Do not commit App Check debug tokens, production secrets, or personal data. The public Firebase web config and the reCAPTCHA v3 **site** key are expected in client apps; keep debug tokens and secret keys out of git.
+Do not commit App Check debug tokens, production secrets, or personal data. The public Firebase web config may be present in a hosted client bundle. A reCAPTCHA **site** key is only needed if you initialise App Check; keep debug tokens and secret keys out of git.
 
 ## Built during the contest window
 
@@ -85,5 +91,5 @@ This project was created during the #BuildHybridAI 2026 submission period (11–
 
 - Firebase AI Logic hybrid web get-started and configuration options (updated 18 Nov 2026)
 - Structured output with `responseSchema`
-- App Check debug provider for localhost; reCAPTCHA v3 for hosted builds
+- App Check is optional: reCAPTCHA provider only if `VITE_RECAPTCHA_SITE_KEY` is set; debug tokens on localhost only
 - Default cloud model: `gemini-3.5-flash-lite` (JS SDK v13+)

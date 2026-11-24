@@ -34,7 +34,7 @@ Work backwards from the deadline. Do not leave submit until late on 30 November.
 
 | When (IST) | What you do |
 |---|---|
-| **Tonight / Wednesday 25 Nov, morning** | Create the personal Firebase project, register a web app, turn on AI Logic (Gemini Developer API), enforce App Check, create a reCAPTCHA v3 site key, register the debug token after one localhost load, copy keys into `.env.local`. Create a **new public** GitHub repo (empty, Apache-2.0 will come from this folder). |
+| **Tonight / Wednesday 25 Nov, morning** | Create the personal Firebase project, register a web app, turn on AI Logic (Gemini Developer API), copy keys into `.env.local`. App Check is optional: only set `VITE_RECAPTCHA_SITE_KEY` if a provider is registered; otherwise leave enforcement off. Create a **new public** GitHub repo (empty, Apache-2.0 will come from this folder). |
 | **Wednesday 25 Nov, by 11:30 p.m. IST** | Optional only: Google Account Quota sprint 3 closes 25 Nov, 10:00 a.m. PT. ShiftBrief uses text inference, which the contest says is free within usage limits. You do **not** need this quota unless you later add billed image-generation features (this app does not). |
 | **Thursday 26 Nov** | Run the app in Chrome 139+ desktop, enable the Prompt API flag, confirm a short sample shows `ON_DEVICE` or a clear fallback, and a long sample shows a cloud path. Fix anything that breaks. |
 | **Friday 27 Nov** | `npm run build`, deploy to **Firebase Hosting** on the same personal project. Record the ≤3 minute demo (script in `DEMO_SCRIPT.md`). Upload to **your** YouTube account as a **public** video. |
@@ -57,9 +57,9 @@ Work backwards from the deadline. Do not leave submit until late on 30 November.
    - `VITE_FIREBASE_STORAGE_BUCKET`
    - `VITE_FIREBASE_MESSAGING_SENDER_ID`
    - `VITE_FIREBASE_APP_ID`
-5. Confirm App Check is **enforced** for Firebase AI Logic (**Security > App Check > APIs**). If it says Unenforced, enforce it.
-6. Create a **reCAPTCHA v3** site key in App Check for this web app. Add your future Hosting domain. Do **not** add `localhost` to the reCAPTCHA allowed domains (official warning). Put the site key in `VITE_RECAPTCHA_V3_SITE_KEY`.
-7. On localhost, leave `VITE_APPCHECK_DEBUG_TOKEN=true`. Run `npm run dev`, open the app, open DevTools. Copy the printed App Check debug token. In **App Check > Apps > Manage debug tokens**, register it. Never commit that token and never ship it in the hosted build (hosted builds must not set a debug token).
+5. **App Check is optional** for this entry. The app initialises App Check only when `VITE_RECAPTCHA_SITE_KEY` is set. If reCAPTCHA v3 classic is deprecated or no provider is registered, do **not** set a site key, and turn **enforcement off** for Firebase AI Logic so the judged demo can call the API.
+6. If you later register a supported App Check provider, add your Hosting domain (do **not** add `localhost` to reCAPTCHA allowed domains), put the site key in `VITE_RECAPTCHA_SITE_KEY`, and then enforce App Check.
+7. Only if App Check is initialised: on localhost you may set `VITE_APPCHECK_DEBUG_TOKEN=true`, copy the printed debug token from DevTools, and register it under **App Check > Apps > Manage debug tokens**. Never commit that token and never ship it in the hosted build.
 8. Optional but useful: in Remote Config, create a parameter `device_char_limit` with default `700`, and publish.
 
 ### B. Chrome on your computer (for the on-device demo)

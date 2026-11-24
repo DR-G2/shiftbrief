@@ -4,7 +4,6 @@ dist/
 .env.local
 .env.*.local
 .firebase/
-.firebaserc
 firebase-debug.log
 .DS_Store
 *.log
@@ -20,3 +19,11 @@ demo/.auth/
 demo/.venv/
 demo/parts/
 demo/raw/
+
+# Firebase CLI headless login (local only)
+.firebase_login_url.txt
+.firebase_code_fifo
+.firebase_login.log
+.firebase_login.pid
+.firebase_login_pty.py
+.firebase_login_status.txt

@@ -10,6 +10,6 @@ if [[ -z "$PROJECT_ID" || "$PROJECT_ID" == "YOUR_PERSONAL_FIREBASE_PROJECT_ID" ]
   exit 1
 fi
 sed "s/YOUR_PERSONAL_FIREBASE_PROJECT_ID/${PROJECT_ID}/" .firebaserc.example > .firebaserc
-echo "Wrote .firebaserc with project ${PROJECT_ID} (this file is gitignored)."
+echo "Wrote .firebaserc with project ${PROJECT_ID} (project id only; safe to commit)."
 echo "Next: firebase login   # if needed"
 echo "      npm run hosting:deploy"

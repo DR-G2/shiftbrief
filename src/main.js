@@ -148,7 +148,12 @@ async function boot() {
     }
     const settings = await loadRemoteSettings(state.firebase.app);
     state.deviceCharLimit = settings.deviceCharLimit || DEFAULT_DEVICE_CHAR_LIMIT;
-    configStatusEl.textContent = `Firebase AI Logic and App Check initialised. Remote Config ${settings.source === "remote-config" ? "loaded" : "using defaults"} (on-device character threshold: ${state.deviceCharLimit}). Host: ${isLocalHost() ? "localhost (debug App Check)" : "hosted"}.`;
+    const appCheckNote = state.firebase.appCheck
+      ? isLocalHost()
+        ? "App Check initialised (localhost debug token)."
+        : "App Check initialised."
+      : "App Check skipped (no reCAPTCHA site key; optional when enforcement is off).";
+    configStatusEl.textContent = `Firebase AI Logic initialised. ${appCheckNote} Remote Config ${settings.source === "remote-config" ? "loaded" : "using defaults"} (on-device character threshold: ${state.deviceCharLimit}). Host: ${isLocalHost() ? "localhost" : "hosted"}.`;
     configStatusEl.dataset.state = "ok";
   } catch (error) {
     configStatusEl.textContent = `Firebase initialisation failed: ${error.message}`;

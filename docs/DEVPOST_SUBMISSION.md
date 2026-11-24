@@ -40,7 +40,7 @@ Hybrid inference is the point of the build, not a feature sticker. The official 
 - `initializeDeviceModel()` runs after a user click, with download progress, as required by the official web guide.
 - Cloud model: `gemini-3.5-flash-lite`. Responses use structured JSON via `responseSchema`.
 - The UI reads `response.inferenceSource`.
-- Firebase App Check is initialised (required). Debug tokens are used only on localhost and are not shipped in the hosted build. Hosted builds use a reCAPTCHA v3 site key.
+- Firebase App Check is optional in this build: it is initialised only when `VITE_RECAPTCHA_SITE_KEY` is set. The judged demo may run with enforcement off if a reCAPTCHA provider is not registered. Debug tokens, when used, are localhost-only and are not shipped in the hosted build.
 - Firebase Remote Config supplies the on-device character threshold, with a local default if fetch fails.
 
 ## Summary of features and functionality

@@ -22,7 +22,7 @@ Give a clinician a complete, trustworthy handover-briefing tool that uses **on-d
 ## Why these Firebase products
 
 - **Firebase AI Logic** (required): imported and called at runtime in `src/ai.js` and initialised in `src/firebase.js`.
-- **App Check** (required by Firebase AI Logic and by the contest): `ReCaptchaV3Provider` on hosted builds; official debug-token pattern on localhost only, never committed.
+- **App Check** (optional in this entry): initialised only when `VITE_RECAPTCHA_SITE_KEY` is set, using `ReCaptchaV3Provider`. Official debug-token pattern on localhost only, never committed. Leave the key unset and turn enforcement off if a reCAPTCHA provider is not available (the console currently treats reCAPTCHA v3 classic as deprecated).
 - **Remote Config** (encouraged): live threshold for the on-device / cloud split, with a local default if fetch fails.
 
 Authentication and Firestore were deliberately omitted so unofficial handover notes are not stored on a server.
@@ -35,8 +35,7 @@ Web (Chrome) is the contest platform. On-device inference requires Chrome deskto
 
 - No real patient identifiers in samples, demos, or git.
 - No production secret keys or App Check debug tokens in the repo.
-- App Check must be **enforced** for Firebase AI Logic in the Firebase console.
-- Hosted builds must not ship `FIREBASE_APPCHECK_DEBUG_TOKEN`.
+- App Check may be left **unenforced** for the judged demo when no reCAPTCHA provider is registered. If you do enable App Check, enforce it and do not ship `FIREBASE_APPCHECK_DEBUG_TOKEN` in hosted builds.
 
 ## Limits (official)
 
