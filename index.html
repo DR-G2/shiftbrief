@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShiftBrief — on-device first handover assistant</title>
+    <meta
+      name="description"
+      content="Structure a clinician shift handover on-device when you can, and in the cloud when the note is long. Not a medical device. Fictitious notes only."
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to notes</a>
+
+    <dialog id="consent" class="consent">
+      <form method="dialog">
+        <h2>Before you use ShiftBrief</h2>
+        <p>
+          ShiftBrief is a writing aid for <strong>fictitious or already de-identified practice notes</strong>.
+          It is not a medical device, not a diagnostic tool, and not a substitute for a clinician’s own handover.
+          You remain responsible for every handover. Do not type real patient names, record numbers, or official chart text.
+        </p>
+        <p>
+          Short notes are sent to an on-device model in Chrome when one is available. Longer notes, or a note you
+          explicitly send to the cloud, leave the device and are processed by a cloud model through Firebase AI Logic.
+          Recent briefs are stored only in this browser.
+        </p>
+        <menu>
+          <button value="accept" class="primary" id="accept-consent">I understand — continue</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <header class="top">
+      <div class="brand">
+        <p class="eyebrow">Firebase AI Logic · hybrid inference</p>
+        <h1>ShiftBrief</h1>
+        <p class="tag">On-device for a short, private brief. Cloud when the handover is long or the local model is missing.</p>
+      </div>
+      <p class="mode" id="mode-badge" data-state="idle">Mode: idle</p>
+    </header>
+
+    <aside class="banner" role="note">
+      <strong>Not a medical device.</strong>
+      Practice notes only. The clinician remains responsible. Never enter real identifiers.
+    </aside>
+
+    <section class="status" aria-label="Runtime status">
+      <p id="config-status">Checking Firebase configuration…</p>
+      <p id="chrome-status"></p>
+      <p id="model-status">On-device model: not initialised yet. The first brief you run will start initialisation (required after a user click).</p>
+    </section>
+
+    <main id="main" class="layout">
+      <section class="panel" aria-labelledby="input-title">
+        <div class="panel-head">
+          <h2 id="input-title">Handover notes</h2>
+          <div class="actions">
+            <button type="button" id="load-short" class="ghost">Short sample</button>
+            <button type="button" id="load-long" class="ghost">Long sample</button>
+            <button type="button" id="clear-notes" class="ghost">Clear</button>
+          </div>
+        </div>
+        <label class="sr-only" for="notes">Fictitious handover notes</label>
+        <textarea
+          id="notes"
+          rows="16"
+          maxlength="8000"
+          placeholder="Paste fictitious, de-identified notes only…"
+        ></textarea>
+        <div class="meta">
+          <p id="char-count">0 characters</p>
+          <label class="check">
+            <input type="checkbox" id="force-cloud" />
+            Prefer cloud for a deeper pass
+          </label>
+        </div>
+        <button type="button" id="run" class="primary">Structure this brief</button>
+        <div id="progress" class="progress" hidden>
+          <div class="bar" id="progress-bar"></div>
+          <p id="progress-label">Preparing the on-device model…</p>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="output-title">
+        <div class="panel-head">
+          <h2 id="output-title">Structured brief</h2>
+          <div class="actions">
+            <button type="button" id="copy-brief" class="ghost" disabled>Copy</button>
+          </div>
+        </div>
+        <p class="hint" id="route-hint">Waiting for a note.</p>
+        <div id="output" class="output">
+          <p class="empty">The structured brief will appear here.</p>
+        </div>
+      </section>
+    </main>
+
+    <section class="history-wrap" aria-labelledby="history-title">
+      <div class="history-head">
+        <h2 id="history-title">Recent briefs in this browser</h2>
+        <button type="button" id="clear-history" class="ghost">Clear history</button>
+      </div>
+      <ul id="history" class="history"></ul>
+    </section>
+
+    <footer>
+      <p>
+        Original project for <a href="https://firebasehybridaihackathon.devpost.com/">#BuildHybridAI 2026</a>.
+        Apache License 2.0. Available free of charge.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+.firebase/
+.firebaserc
+firebase-debug.log
+.DS_Store
+*.log
+src/firebase-config.local.js
+
+# Local demo recordings (kept on the workspace, not in git)
+demo/*.mp4
+demo/*.webm
+demo/*.wav
+demo/*.mp3
+demo/*.srt
+demo/.auth/
