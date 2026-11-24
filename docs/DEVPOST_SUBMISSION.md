@@ -1,5 +1,5 @@
 # Devpost submission text — paste these fields
-Replace the three URL placeholders after you create the public repo, YouTube video, and hosted demo. Language: English. Platform: **Web / Chrome**. The project is free of charge.
+Paste these fields into Devpost. Language: English. Platform: **Web / Chrome**. The project is free of charge. Replace only the YouTube URL after the demo is uploaded.
 
 ## Project name
 ShiftBrief
@@ -14,20 +14,20 @@ Web / Chrome
 Firebase AI Logic, Gemini Nano, Chrome Prompt API, Firebase App Check, Firebase Remote Config, Firebase Hosting, JavaScript, Vite
 
 ## Repository URL
-`https://github.com/YOUR_USERNAME/shiftbrief`  
-(must be public; Apache-2.0 licence visible in About)
+`https://github.com/DR-G2/shiftbrief`  
+(public; Apache-2.0 licence visible in About)
 
 ## Demo video URL (public YouTube)
 `https://www.youtube.com/watch?v=YOUR_VIDEO_ID`
 
 ## Hosted project / website URL (strongly encouraged)
-`https://YOUR_PROJECT.web.app`
+`https://shiftbrief-108d9.web.app`
 
 ## About / text description (required)
 
 ShiftBrief is a web app for clinicians who have to hand over a shift in a hurry, often on a ward computer or a laptop with unreliable Wi-Fi.
 
-You paste unofficial, already de-identified handover notes. ShiftBrief returns a structured brief: an identifier line, current issues, pending tasks, and what the incoming clinician should watch for. A short note is intended to be summarised **on-device** with Gemini Nano, through Firebase AI Logic, so a routine handover can stay on the device — private, free, and usable when the network is poor. A long or messy multi-bay note, or an explicit request for a deeper pass, is sent to a cloud model through the **same** SDK. The app then displays the official `inferenceSource` (`ON_DEVICE` or `IN_CLOUD`) so it is obvious which path actually ran.
+You paste unofficial, already de-identified handover notes. ShiftBrief returns a structured brief: an identifier line, current issues, pending tasks, and what the incoming clinician should watch for. A short note is intended to be summarised **on-device** with Gemini Nano, through Firebase AI Logic, so a routine handover can stay on the device — private, free, and usable when the network is poor. If Chrome does not provide the on-device model, `PREFER_ON_DEVICE` falls back to the cloud and the UI shows `inferenceSource: IN_CLOUD` honestly. A long or messy multi-bay note, or an explicit request for a deeper pass, is sent to a cloud model through the **same** SDK. The app then displays the official `inferenceSource` (`ON_DEVICE` or `IN_CLOUD`) so it is obvious which path actually ran.
 
 The product is deliberately narrow. It does not diagnose, prescribe, or write in the official record. Every screen carries a warning that the clinician remains responsible, and that real identifiers must not be entered. Recent briefs are stored only in the browser. There is no server-side note database.
 
@@ -40,7 +40,7 @@ Hybrid inference is the point of the build, not a feature sticker. The official 
 - `initializeDeviceModel()` runs after a user click, with download progress, as required by the official web guide.
 - Cloud model: `gemini-3.5-flash-lite`. Responses use structured JSON via `responseSchema`.
 - The UI reads `response.inferenceSource`.
-- Firebase App Check is optional in this build: it is initialised only when `VITE_RECAPTCHA_SITE_KEY` is set. The judged demo may run with enforcement off if a reCAPTCHA provider is not registered. Debug tokens, when used, are localhost-only and are not shipped in the hosted build.
+- Firebase App Check is optional in this build: it is initialised only when `VITE_RECAPTCHA_SITE_KEY` is set. The hosted demo at https://shiftbrief-108d9.web.app currently leaves AI Logic App Check **unenforced**, because a reCAPTCHA v3 classic provider is not registered. Enforcement is set to auto-re-enable on 21 January 2027, after judging. Debug tokens, when used, are localhost-only and are not shipped in the hosted build.
 - Firebase Remote Config supplies the on-device character threshold, with a local default if fetch fails.
 
 ## Summary of features and functionality
@@ -64,7 +64,7 @@ This is a new project, created during the #BuildHybridAI 2026 submission period 
 
 ## Testing instructions for judges
 
-1. Open the hosted demo URL in **Chrome desktop 139 or higher** (on-device inference is not supported in other browsers).
+1. Open https://shiftbrief-108d9.web.app in **Chrome desktop 139 or higher** (on-device inference is not supported in other browsers).
 2. If you want to see the on-device path, enable `chrome://flags/#prompt-api-for-gemini-nano-multimodal-input` and restart Chrome. The first on-device call may download a local model and can take several minutes.
 3. Accept the consent notice. Use only the built-in fictitious samples (or other invented, de-identified text). Do not enter real personal data.
 4. Run **Short sample** and confirm a structured brief appears. Note the reported `inferenceSource`. If the local model is still downloading, `PREFER_ON_DEVICE` may fall back to cloud; the UI will say so honestly.

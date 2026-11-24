@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Record a <=3 minute ShiftBrief demo with TTS voiceover.
 
-This script records the labelled local-preview path on a local Vite preview
-server. It does not claim a live Gemini Nano or cloud call.
+This script records the live hosted ShiftBrief app (or a local preview if
+SHIFTBRIEF_URL points at one). Narration should match what the UI actually shows.
 """
 from __future__ import annotations
 
@@ -22,8 +22,8 @@ NARRATION = DEMO / "narration.txt"
 AUDIO = DEMO / "narration.mp3"
 RAW_DIR = DEMO / "raw"
 WEBM = None
-OUT = DEMO / "shiftbrief-demo-local-preview.mp4"
-URL = os.environ.get("SHIFTBRIEF_URL", "http://localhost:8765/")
+OUT = Path(os.environ.get("SHIFTBRIEF_OUT", str(DEMO / "shiftbrief-demo-live.mp4")))
+URL = os.environ.get("SHIFTBRIEF_URL", "https://shiftbrief-108d9.web.app/")
 VOICE = os.environ.get("SHIFTBRIEF_VOICE", "en-GB-SoniaNeural")
 
 # Cue times are filled after TTS is built (seconds from start of audio).
@@ -198,24 +198,17 @@ def record_screen(audio_duration: float) -> Path:
 
         wait_until(start, "short_setup", 0.2)
         page.locator("#load-short").click()
-        page.wait_for_timeout(800)
-        mid_short = start + (CUES["short_setup"] + CUES["short_result"]) / 2
-        remaining = mid_short - time.monotonic()
-        if remaining > 0:
-            time.sleep(remaining)
+        page.wait_for_timeout(500)
+        # Click early in the short-setup cue so the live model has time to respond.
         page.locator("#run").click()
-        page.locator("#output .brief").filter(has_text="Night shift brief, ward 4").wait_for(timeout=8000)
+        page.locator("#output .brief .route").filter(has_text="PREFER_ON_DEVICE").wait_for(timeout=90000)
         page.wait_for_timeout(400)
 
         wait_until(start, "long_setup", 0.2)
         page.locator("#load-long").click()
-        page.wait_for_timeout(700)
-        mid_long = start + (CUES["long_setup"] + CUES["long_result"]) / 2
-        remaining = mid_long - time.monotonic()
-        if remaining > 0:
-            time.sleep(remaining)
+        page.wait_for_timeout(500)
         page.locator("#run").click()
-        page.locator("#output .brief").filter(has_text="Morning handover, medical ward").wait_for(timeout=8000)
+        page.locator("#output .brief .route").filter(has_text="PREFER_IN_CLOUD").wait_for(timeout=90000)
 
         # hold until audio ends, plus a short tail
         remaining = (start + audio_duration + 1.2) - time.monotonic()
@@ -276,7 +269,7 @@ def main() -> None:
 
         urllib.request.urlopen(URL, timeout=3).read(200)
     except Exception as exc:
-        raise SystemExit(f"Local app is not reachable at {URL}. Start `npm run preview` first. ({exc})")
+        raise SystemExit(f"App is not reachable at {URL}. ({exc})")
 
     duration = build_narration()
     video = record_screen(duration)

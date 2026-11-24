@@ -11,6 +11,9 @@ This is an original, personal, open-source project. It is not affiliated with an
 **Hybrid web docs (18 Nov 2026):** https://firebase.google.com/docs/ai-logic/hybrid/web/get-started  
 **Deadline:** 30 Nov 2026, 2:00 p.m. Pacific Time = **1 Dec 2026, 3:30 a.m. IST (Asia/Calcutta)**
 
+**Live demo:** https://shiftbrief-108d9.web.app  
+**Source:** https://github.com/DR-G2/shiftbrief
+
 Licence: Apache License 2.0 (preferred by the contest). You keep ownership of the project. By submitting you also accept Google’s promotional licence and publicity terms — read `docs/MR_G_CHECKLIST.md` before you click submit.
 
 ## What this is not
@@ -66,8 +69,8 @@ Without `.env.local`, the UI still opens and can show a **labelled local preview
 ## Hybrid fallback
 
 - If Firebase web config is missing, the UI uses a clearly labelled **local preview**. That path is a rule-based sketch, not a live model, and is not the contest AI path.
-- When Firebase AI Logic is configured, short notes use `PREFER_ON_DEVICE` and long notes (or “prefer cloud”) use `PREFER_IN_CLOUD`. If the on-device model is unavailable, `PREFER_ON_DEVICE` falls back to the cloud through the official SDK, and the UI still shows `inferenceSource`.
-- **App Check is optional** in this project. The app initialises App Check only when `VITE_RECAPTCHA_SITE_KEY` is set. If reCAPTCHA v3 classic is unavailable in the Firebase console, leave the key unset and turn enforcement off so the judged demo can call AI Logic.
+- When Firebase AI Logic is configured, short notes use `PREFER_ON_DEVICE` and long notes (or “prefer cloud”) use `PREFER_IN_CLOUD`. If the on-device model (Gemini Nano) is unavailable, `PREFER_ON_DEVICE` falls back to the cloud through the official SDK, and the UI still shows `inferenceSource`. That is the expected path in browsers without Nano, including this project's recorded demo.
+- **App Check is optional** in this project. The app initialises App Check only when `VITE_RECAPTCHA_SITE_KEY` is set. The hosted demo currently leaves Firebase AI Logic App Check **unenforced**, because a reCAPTCHA v3 classic provider is not registered. Enforcement is set to auto-re-enable on 21 January 2027, which is after judging.
 
 ```bash
 npm run build
@@ -78,7 +81,7 @@ npm run preview
 
 - A current Chrome desktop browser (139+)
 - The Prompt API flag above if they want to see the on-device path
-- The hosted demo URL (recommended) or this repo plus `npm install && npm run dev` after creating their own Firebase project
+- The hosted demo at https://shiftbrief-108d9.web.app (recommended), or this repo plus `npm install && npm run dev` after creating their own Firebase project
 - The project is free. No login is required. Do not enter real personal data.
 
 Do not commit App Check debug tokens, production secrets, or personal data. The public Firebase web config may be present in a hosted client bundle. A reCAPTCHA **site** key is only needed if you initialise App Check; keep debug tokens and secret keys out of git.
