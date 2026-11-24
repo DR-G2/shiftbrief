@@ -18,7 +18,7 @@ Firebase AI Logic, Gemini Nano, Chrome Prompt API, Firebase App Check, Firebase 
 (public; Apache-2.0 licence visible in About)
 
 ## Demo video URL (public YouTube)
-`https://www.youtube.com/watch?v=YOUR_VIDEO_ID`
+`https://youtu.be/v69IfDenBOA`
 
 ## Hosted project / website URL (strongly encouraged)
 `https://shiftbrief-108d9.web.app`
